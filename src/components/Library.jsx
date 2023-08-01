@@ -5,9 +5,9 @@ import { useContext } from 'react';
 import { MyContext } from '../context/MyContext';
 
 function Library() {
+    
     const { tracks } = useContext(MyContext);
-
-
+    
     return (
         <section
             className='bg-timberWolf w-full py-4 px-2 box-border ms-2 rounded-lg col-start-1 col-end-4 row-start-2 row-end-6'>
