@@ -1,25 +1,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeLow, faBackwardStep, faPlay, faForwardStep, faShuffle, faRepeat, faPause } from '@fortawesome/free-solid-svg-icons';
+import { faBackwardStep, faPlay, faForwardStep, faPause, faShuffle, faRepeat, faVolumeLow} from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';
 import { MyContext } from '../context/MyContext';
+import Tag from './Tag';
 
 function Player() {
 
-    const { 
+    const {
         currentTrack,
-        tracks, 
-        isPlaying, 
-        stopTrack, 
-        playTrack, 
+        tracks,
+        isPlaying,
+        stopTrack,
+        playTrack,
     } = useContext(MyContext);
-
-    // Obtener el índice de la pista actual
-    const currentTrackIndex = tracks.findIndex((track) => track.id === currentTrack?.id);
-
-    // Obtener el número de la pista actual (comenzando desde 1)
-    const currentTrackNumber = currentTrackIndex !== -1 ? currentTrackIndex + 1 : 0;
-
-    const allTracks = tracks.length;
 
     // Manejar el evento de clic en el botón Play/Pause
     const togglePlay = () => {
@@ -57,58 +50,30 @@ function Player() {
     };
 
     return (
-        <section className='w-full col-start-4 col-end-13 row-start-2 row-end-6 flex justify-center'>
-            {!currentTrack ? (
-                <h1>Selecciona un track</h1>
-            ) : (
-                <div className='w-11/12 h-full bg-timberWolf rounded-lg px-8 py-4'>
-                    <div className='w-full flex justify-between'>
-                        <p className='text-3xl text-onix'>Catalogo</p>
-                        <span className='text-onix font-semibold'>{currentTrackNumber} / {allTracks}</span>
+        <section className={`w-full flex flex-col bg-timberWolf fixed left-0 ${currentTrack ? 'bottom-0' : '-bottom-14'} transition-all duration-500`}>
+            <input type="range" className='appearance-none h-1 bg-kepple outline-none'/>
+            <div className='flex'>
+                <div className='flex w-1/2 items-center px-2 py-1 gap-4'>
+                    <figure className='min-w-max max-h-10 h-10 rounded-xl'>
+                        <img className='w-full h-full object-cover rounded-lg' src={currentTrack ? currentTrack.img : ''} alt="" />
+                    </figure>
+                    <div className='overflow-hidden'>
+                        <p className='text-lg capitalize overflow-hidden text-ellipsis whitespace-nowrap'>{currentTrack ? currentTrack.name : ''}</p>
+                        <Tag><span className='font-light text-sm md:text-base text-white capitalize'>#Hip-Hop</span></Tag>
                     </div>
-                    <div className='w-full flex'>
-                        <div className='w-1/2 pt-2 space-y-4'>
-                            <figure className='w-10/12 rounded-lg'>
-                                <img className='w-full rounded-lg' src={currentTrack.img} alt="" />
-                            </figure>
-                            <div className='flex gap-5 items-center'>
-                                <p className='bg-onix inline-block leading-8 w-10 h-8 text-center rounded-full text-white'>50</p>
-                                <div className='flex gap-3'>
-                                    <span className='bg-onix w-8 h-8 leading-8 inline-block text-center rounded-full text-white'>
-                                        <FontAwesomeIcon icon={faVolumeLow} />
-                                    </span>
-                                    <input type="range" name="" id="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='w-1/2 space-y-10'>
-                            <div className='w-full text-center'>
-                                <p className='text-3xl text-onix capitalize'>{currentTrack.name}</p>
-                                <p className='text-kepple text-lg uppercase'>{currentTrack.id}</p>
-                            </div>
-                            <div className='flex justify-center gap-5'>
-                                <button onClick={backTack} className='inline-flex items-center justify-center w-12 h-12 text-xl rounded-full bg-kepple'>
-                                    <FontAwesomeIcon icon={faBackwardStep} />
-                                </button>
-                                <button onClick={togglePlay} className='inline-flex items-center justify-center w-12 h-12 text-xl rounded-full bg-kepple'>
-                                    <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
-                                </button>
-                                <button onClick={nextTrack} className='inline-flex items-center justify-center w-12 h-12 text-xl rounded-full bg-kepple'>
-                                    <FontAwesomeIcon icon={faForwardStep} />
-                                </button>
-                            </div>
-                            <div className='w-full flex justify-center items-center flex-col gap-10'>
-                                <input 
-                                type="range" 
-                                />
-                                <div className='space-x-5'>
-                                    <button className='inline-flex items-center justify-center w-12 h-12 text-xl rounded-full bg-kepple'><FontAwesomeIcon icon={faRepeat} /></button>
-                                    <button className='inline-flex items-center justify-center w-12 h-12 text-xl rounded-full bg-kepple'><FontAwesomeIcon icon={faShuffle} /></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>)}
+                </div>
+                <div className='w-1/2 md:w-2/3 flex justify-center items-center gap-4'>
+                    <button className='hidden sm:inline  md:text-xl text-onix'><FontAwesomeIcon icon={faShuffle} /></button>
+                    <button onClick={backTack} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={faBackwardStep} /></button>
+                    <button onClick={togglePlay} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={isPlaying && currentTrack ? faPause : faPlay} /></button>
+                    <button onClick={nextTrack} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={faForwardStep} /></button>
+                    <button className='hidden sm:inline md:text-xl text-onix'><FontAwesomeIcon icon={faRepeat} /></button>
+                </div>
+                <div className='hidden md:flex justify-center items-center gap-2 md:w-1/3'>
+                    <button className='text-2xl'><FontAwesomeIcon icon={faVolumeLow} /></button>
+                    <input type="range" />
+                </div>
+            </div>
         </section>
     )
 }

@@ -15,6 +15,12 @@ export default {
       },
       fontFamily: {
         Josefin: ['Josefin Sans', 'sans-serif']
+      },
+      maxWidth:{
+        '160': '160px'
+      },
+      gridTemplateColumns:{
+        autoFit: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))'
       }
     },
   },
