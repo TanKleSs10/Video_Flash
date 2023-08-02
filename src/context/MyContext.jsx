@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
-import { tracks as data } from '../data/track';
+import trackData from '../data/trackData';
 import { Howl } from 'howler';
 
 export const MyContext = createContext();
@@ -7,12 +7,11 @@ export const MyContext = createContext();
 export function MyContextProvider(props) {
     const [currentTrack, setCurrentTrack] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [tracks, setTracks] = useState([]);
+    const [isTrackEnded, setIsTrackEnded] = useState(null);
     const currentSoundRef = useRef(null);
+    const tracks = trackData();
 
-    useEffect(() => {
-        setTracks(data);
-    }, []);
+
 
     // Controlar la reproducción de la pista actual
     useEffect(() => {
@@ -22,6 +21,10 @@ export function MyContextProvider(props) {
                 src: [`/src/audio/${currentTrack.track}`],
                 onplay: () => setIsPlaying(true),
                 onpause: () => setIsPlaying(false),
+                onend: () => {
+                    setIsPlaying(false); // Pausa la reproducción al finalizar el track
+                    setIsTrackEnded(true); // Establece el estado como "terminado" al finalizar el track
+                },
             });
             currentSoundRef.current.play(); // Iniciar la reproducción de la nueva pista
         } else {
@@ -29,6 +32,7 @@ export function MyContextProvider(props) {
             if (currentSoundRef.current) {
                 currentSoundRef.current.stop();
                 currentSoundRef.current = null;
+
             }
         }
     }, [currentTrack]);
