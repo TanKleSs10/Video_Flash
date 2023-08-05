@@ -12,6 +12,9 @@ function Player() {
         isPlaying,
         stopTrack,
         playTrack,
+        duration,
+        handleTimeChange,
+        progress
     } = useContext(MyContext);
 
     // Manejar el evento de clic en el botón Play/Pause
@@ -51,7 +54,7 @@ function Player() {
 
     return (
         <section className={`w-full flex flex-col bg-timberWolf fixed left-0 ${currentTrack ? 'bottom-0' : '-bottom-14'} transition-all duration-500`}>
-            <input type="range" className='appearance-none h-1 bg-kepple outline-none'/>
+            <input type="range" className='appearance-none h-1 bg-kepple outline-none' min={0} max={duration} value={progress} onChange={handleTimeChange}/>
             <div className='flex'>
                 <div className='flex w-1/2 items-center px-2 py-1 gap-4'>
                     <figure className='min-w-max max-h-10 h-10 rounded-xl'>
