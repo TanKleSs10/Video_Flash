@@ -7,7 +7,7 @@ import Tag from './Tag'
 function ItemTrack({ track }) {
 
     const { playTrack, currentTrack, isPlaying } = useContext(MyContext);
-
+    
     const handlePlayClick = () => {
         playTrack(track);
     };
