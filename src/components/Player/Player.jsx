@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackwardStep, faPlay, faForwardStep, faPause, faShuffle, faRepeat, faVolumeLow } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react';
-import { MyContext } from '../context/MyContext';
-import Tag from './Tag';
+import { MyContext } from '../../context/MyContext';
+import Tag from '../Tag';
 
 function Player() {
 

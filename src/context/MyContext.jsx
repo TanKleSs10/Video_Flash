@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
 import trackData from '../data/trackData';
-import { Howl } from 'howler';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { ControlPlayer } from '../components/Player/ControlPlayer'
 
 export const MyContext = createContext();
 
@@ -18,60 +17,45 @@ export function MyContextProvider(props) {
     const currentSoundRef = useRef(null);
     const tracks = trackData();
 
-
-
-    // Controlar la reproducción de la pista actual
-    useEffect(() => {
-        setIsTrackEnded(false);
-        // Crea una nueva instancia de Howl cuando cambia la pista actual
-        if (currentTrack) {
-            currentSoundRef.current = new Howl({
-                src: [`/src/audio/${currentTrack.track}`],
-                html5: true,
-                onplay: () => setIsPlaying(true),
-                loop: looping,
-                volume: vol,
-                onpause: () => { setIsPlaying(false) },
-                onload: () => {
-                    if (currentSoundRef.current) {
-                        setDuration(currentSoundRef.current.duration());
-                    }
-                },
-                onseek: () => setProgress(currentSoundRef.current.seek()),
-                onend: () => {
-                    setIsPlaying(false); // Pausa la reproducción al finalizar el track
-                    setIsTrackEnded(true); // Establece el estado como "terminado" al finalizar el track
-                }
-            })
-            slider()
-            currentSoundRef.current.play(); // Iniciar la reproducción de la nueva pista
-        } else {
-            // Si no hay pista actual, reinicia la referencia
-            if (currentSoundRef.current) {
-                currentSoundRef.current.stop();
-                currentSoundRef.current = null;
-            }
-        }
-    }, [currentTrack, currentSoundRef]);
-
+    // funciones para el manejo del audio
     useEffect(() => {
         if (autoplay && isTrackEnded && looping === false) {
             nextTrack();
         }
     }, [autoplay, isTrackEnded, looping, vol, mute]);
 
-
-    const slider = () => {
-        let progressInterval;
-        if (isPlaying) {
-            progressInterval = setInterval(() => {
-                setProgress(currentSoundRef.current.seek());
-            }, 100);
-
+    const handleVolChange = (event) => {
+        const newVol = parseFloat(event.target.value);
+        setVol(newVol);
+        currentSoundRef.current.volume(newVol);
+        if (newVol === 0) {
+            setMute(true);
+            currentSoundRef.current.mute(true);
         } else {
-            clearInterval(progressInterval);
-        };
-    }
+            setMute(false);
+            currentSoundRef.current.mute(false);
+        }
+    };
+
+    const handleMute = () => {
+        setMute(!mute);
+        currentSoundRef.current.mute(!mute);
+        if (!mute && vol === 0) {
+            setVol(50); // O cualquier otro valor predeterminado
+            currentSoundRef.current.volume(50);
+        }
+    };
+    // funciones centrales del reproducti (back play/pause next)
+    const nextTrack = () => {
+        // Encuentra el índice de la pista actual en la lista de pistas;
+        const indexTrack = tracks.findIndex((track) => track.id === currentTrack.id)
+
+        // Obtiene el índice de la siguiente pista
+        const nextIndex = (indexTrack + 1) % tracks.length;
+        setIsTrackEnded(false);
+        // Reproduce la siguiente pista
+        playTrack(tracks[nextIndex]);
+    };
 
     // Función para reproducir/pausar una pista
     const playTrack = (track) => {
@@ -98,55 +82,17 @@ export function MyContextProvider(props) {
         }
     };
 
-    const getDuration = () => {
-        if (currentSoundRef.current) {
-            const min = Math.floor(duration / 60)
-            const seg = Math.floor(duration % 60)
-            const minString = min < 10 ? `0${min}` : `${min}`;
-            const segString = seg < 10 ? `0${seg}` : `${seg}`;
-            return `${minString}:${segString}`
-        }
-    };
-    const nextTrack = () => {
-        // Encuentra el índice de la pista actual en la lista de pistas;
-        const indexTrack = tracks.findIndex((track) => track.id === currentTrack.id)
-
-        // Obtiene el índice de la siguiente pista
-        const nextIndex = (indexTrack + 1) % tracks.length;
-        setIsTrackEnded(false);
-        // Reproduce la siguiente pista
-        playTrack(tracks[nextIndex]);
-    };
-
+    // Función para adelantar o retroceder la pista 
     const handleTimeChange = (event) => {
         const newTime = parseFloat(event.target.value);
         currentSoundRef.current.seek(newTime); // Asegúrate de que el método seek se esté llamando correctamente
         setProgress(newTime);
     };
 
-    const handleVolChange = (event) => {
-        const newVol = parseFloat(event.target.value);
-        setVol(newVol);
-        currentSoundRef.current.volume(newVol);
-        if (newVol === 0) {
-          setMute(true);
-          currentSoundRef.current.mute(true);
-        } else {
-          setMute(false);
-          currentSoundRef.current.mute(false);
-        }
-      };
-      
-      const handleMute = () => {
-        setMute(!mute);
-        currentSoundRef.current.mute(!mute);
-        if (!mute && vol === 0) {
-          setVol(50); // O cualquier otro valor predeterminado
-          currentSoundRef.current.volume(50);
-        }
-      };
-      
+    // Función para controlar si pasa a la siguente pista
     const handlerAutoPlay = () => setAutoplay(!autoplay)
+
+    // Función para controlar si se reproduce en bucle
     const handlerLoop = () => {
         setLooping(!looping)
         currentSoundRef.current.once('play', () => {
@@ -159,7 +105,9 @@ export function MyContextProvider(props) {
 
     // Pasa las funciones junto con los estados en el valor del contexto
     const contextValue = {
+        // pistas
         tracks,
+        // valores de estado
         autoplay,
         isPlaying,
         currentTrack,
@@ -170,6 +118,7 @@ export function MyContextProvider(props) {
         progress,
         vol,
         mute,
+        // funciones
         nextTrack,
         playTrack,
         stopTrack,
@@ -177,11 +126,17 @@ export function MyContextProvider(props) {
         handlerAutoPlay,
         handleTimeChange,
         handleVolChange,
-        handleMute
+        handleMute,
+        // actualizar valores
+        setDuration,
+        setIsPlaying,
+        setProgress,
+        setIsTrackEnded
     };
 
     return (
         <MyContext.Provider value={contextValue}>
+            <ControlPlayer />
             {props.children}
         </MyContext.Provider>
     );
