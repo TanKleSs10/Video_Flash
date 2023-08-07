@@ -123,15 +123,29 @@ export function MyContextProvider(props) {
         currentSoundRef.current.seek(newTime); // Asegúrate de que el método seek se esté llamando correctamente
         setProgress(newTime);
     };
+
     const handleVolChange = (event) => {
         const newVol = parseFloat(event.target.value);
-        currentSoundRef.current.volume(newVol); // Asegúrate de que el método seek se esté llamando correctamente
         setVol(newVol);
-    };
-    const handleMute = () => {
-        setMute(!mute)
-        currentSoundRef.current.mute(!mute)
-    }
+        currentSoundRef.current.volume(newVol);
+        if (newVol === 0) {
+          setMute(true);
+          currentSoundRef.current.mute(true);
+        } else {
+          setMute(false);
+          currentSoundRef.current.mute(false);
+        }
+      };
+      
+      const handleMute = () => {
+        setMute(!mute);
+        currentSoundRef.current.mute(!mute);
+        if (!mute && vol === 0) {
+          setVol(50); // O cualquier otro valor predeterminado
+          currentSoundRef.current.volume(50);
+        }
+      };
+      
     const handlerAutoPlay = () => setAutoplay(!autoplay)
     const handlerLoop = () => {
         setLooping(!looping)
@@ -154,6 +168,8 @@ export function MyContextProvider(props) {
         looping,
         duration,
         progress,
+        vol,
+        mute,
         nextTrack,
         playTrack,
         stopTrack,

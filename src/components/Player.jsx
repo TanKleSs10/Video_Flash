@@ -20,7 +20,9 @@ function Player() {
         looping,
         handlerLoop,
         handleVolChange,
-        handleMute
+        handleMute,
+        vol,
+        mute
     } = useContext(MyContext);
 
     // Manejar el evento de clic en el botón Back (Anterior)
@@ -57,7 +59,7 @@ function Player() {
                 </div>
                 <div className='hidden md:flex justify-center items-center gap-2 md:w-1/3'>
                     <button onClick={handleMute} className='text-2xl'><FontAwesomeIcon icon={faVolumeLow} /></button>
-                    <input type="range" min={0} max={1} step={0.1} onChange={handleVolChange}/>
+                    <input type="range" min={0} max={1} step={0.1} value={mute ? 0 : vol} onChange={handleVolChange}/>
                 </div>
             </div>
         </section>
