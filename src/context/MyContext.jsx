@@ -74,6 +74,18 @@ export function MyContextProvider(props) {
         }
     };
 
+    // Manejar el evento de clic en el botón Back (Anterior)
+    const backTrack = () => {
+        // Encuentra el índice de la pista actual en la lista de pistas
+        const currentIndex = tracks.findIndex((track) => track.id === currentTrack.id);
+
+        // Obtiene el índice de la pista anterior
+        const prevIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+
+        // Reproduce la pista anterior
+        playTrack(tracks[prevIndex]);
+    };
+
     // Función para detener la reproducción de la pista actual
     const stopTrack = () => {
         setIsPlaying(false);
@@ -121,6 +133,7 @@ export function MyContextProvider(props) {
         // funciones
         nextTrack,
         playTrack,
+        backTrack,
         stopTrack,
         handlerLoop,
         handlerAutoPlay,

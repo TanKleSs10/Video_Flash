@@ -8,7 +8,6 @@ function Player() {
 
     const {
         currentTrack,
-        tracks,
         isPlaying,
         playTrack,
         duration,
@@ -22,20 +21,9 @@ function Player() {
         handleVolChange,
         handleMute,
         vol,
-        mute
+        mute,
+        backTrack
     } = useContext(MyContext);
-
-    // Manejar el evento de clic en el botón Back (Anterior)
-    const backTack = () => {
-        // Encuentra el índice de la pista actual en la lista de pistas
-        const currentIndex = tracks.findIndex((track) => track.id === currentTrack.id);
-
-        // Obtiene el índice de la pista anterior
-        const prevIndex = (currentIndex - 1 + tracks.length) % tracks.length;
-
-        // Reproduce la pista anterior
-        playTrack(tracks[prevIndex]);
-    };
 
     return (
         <section className={`w-full flex flex-col bg-timberWolf fixed left-0 ${currentTrack ? 'bottom-0' : '-bottom-14'} transition-all duration-500`}>
@@ -52,14 +40,14 @@ function Player() {
                 </div>
                 <div className='w-1/2 md:w-2/3 flex justify-center items-center gap-4'>
                     <button onClick={handlerAutoPlay} className={`hidden sm:inline  md:text-xl ${autoplay ? 'text-black' : 'text-onix'}`}><FontAwesomeIcon icon={faShuffle} /></button>
-                    <button onClick={backTack} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={faBackwardStep} /></button>
-                    <button onClick={()=>{playTrack(currentTrack)}} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={isPlaying && currentTrack ? faPause : faPlay} /></button>
+                    <button onClick={backTrack} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={faBackwardStep} /></button>
+                    <button onClick={() => { playTrack(currentTrack) }} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={isPlaying && currentTrack ? faPause : faPlay} /></button>
                     <button onClick={nextTrack} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={faForwardStep} /></button>
                     <button onClick={handlerLoop} className={`hidden sm:inline  md:text-xl ${looping ? 'text-black' : 'text-onix'}`}><FontAwesomeIcon icon={faRepeat} /></button>
                 </div>
                 <div className='hidden md:flex justify-center items-center gap-2 md:w-1/3'>
                     <button onClick={handleMute} className='text-2xl'><FontAwesomeIcon icon={faVolumeLow} /></button>
-                    <input type="range" min={0} max={1} step={0.1} value={mute ? 0 : vol} onChange={handleVolChange}/>
+                    <input type="range" min={0} max={1} step={0.1} value={mute ? 0 : vol} onChange={handleVolChange} />
                 </div>
             </div>
         </section>
