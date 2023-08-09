@@ -6,7 +6,10 @@ export const tracks = [
         track: 'bajoLasNubes.mp3',
         img: 'https://catalogo-videoflash.web.app/assets/img/track3.jpg', 
         bpm: 90,
-        price: 300
+        price: 300,
+        tag: 'Rap',
+        duracion: '04:27',
+        licencia: 'MP3 Lease'
     },
     {
         id: 'BRL-002',
@@ -14,7 +17,10 @@ export const tracks = [
         track: 'lluviaDeNotas.mp3',
         img: 'https://catalogo-videoflash.web.app/assets/img/track2.jpg', 
         bpm: 88,
-        price: 250
+        price: 250,
+        tag: 'Trap',
+        duracion: '03:00',
+        licencia: 'MP3 Lease'
     },
     {
         id: 'BRQ-004',
@@ -22,7 +28,10 @@ export const tracks = [
         track: 'quePiensas.mp3',
         img: 'https://catalogo-videoflash.web.app/assets/img/track4.jpg', 
         bpm: 84,
-        price: 190
+        price: 190,
+        tag: 'Chill',
+        duracion: '03:14',
+        licencia: 'MP3 Lease'
     },
     {
         id: 'BRN-001',
@@ -30,7 +39,10 @@ export const tracks = [
         track: 'recuerdosDeLaNoche.mp3',
         img: 'https://catalogo-videoflash.web.app/assets/img/track1.jpg', 
         bpm: 92,
-        price: 225
+        price: 225,
+        tag: 'reggeton',
+        duracion: '03:01',
+        licencia: 'MP3 Lease'
     }
 
 ]

@@ -1,7 +1,7 @@
 import { Howl } from "howler";
 import { useEffect, useContext } from "react";
-import { MyContext } from '../../context/MyContext';
-
+import { MyContext } from "../../context/MyContext";
+import { rute } from "../../utils/utils";
 export function ControlPlayer() {
   const {
     vol,
@@ -19,8 +19,8 @@ export function ControlPlayer() {
     // Crea una nueva instancia de Howl cuando cambia la pista actual
     if (currentTrack) {
       currentSoundRef.current = new Howl({
-      // configuracion de la instancia Howl
-        src: [`/src/audio/${currentTrack.track}`],
+        // configuracion de la instancia Howl
+        src: [rute(currentTrack.track)],
         html5: true,
         onplay: () => setIsPlaying(true),
         loop: looping,
@@ -41,9 +41,9 @@ export function ControlPlayer() {
       });
 
       const progressInterval = setInterval(() => {
-      if (currentSoundRef.current) {
-        setProgress(currentSoundRef.current.seek());
-      }
+        if (currentSoundRef.current) {
+          setProgress(currentSoundRef.current.seek());
+        }
       }, 100);
       currentSoundRef.current.play(); // Iniciar la reproducción de la nueva pista
       return () => {

@@ -115,6 +115,20 @@ export function MyContextProvider(props) {
         }
     };
 
+    // modo oscuro
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+    localStorage.setItem('theme', theme)
+
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+    const changeMode = () => {
+        theme === 'light' ? setTheme('dark') : setTheme('light')
+    }
+
+
     // Pasa las funciones junto con los estados en el valor del contexto
     const contextValue = {
         // pistas
@@ -130,6 +144,7 @@ export function MyContextProvider(props) {
         progress,
         vol,
         mute,
+        theme,
         // funciones
         nextTrack,
         playTrack,
@@ -140,6 +155,7 @@ export function MyContextProvider(props) {
         handleTimeChange,
         handleVolChange,
         handleMute,
+        changeMode,
         // actualizar valores
         setDuration,
         setIsPlaying,

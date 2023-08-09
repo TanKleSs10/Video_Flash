@@ -1,24 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import { useContext } from 'react'
 import { MyContext } from '../context/MyContext'
 import Tag from './Tag'
+import Modal from './Modal';
 // eslint-disable-next-line react/prop-types
 function ItemTrack({ track }) {
 
     const { playTrack, currentTrack, isPlaying } = useContext(MyContext);
-    
-    const handlePlayClick = () => {
-        playTrack(track);
-    };
 
     return (
-        <div className='w-full max-h-96 h-max flex flex-col'>
+        <div className='w-full max-h-96 h-max flex flex-col bg-timberWolf dark:bg-gray-900 shadow-content dark:shadow-contentInv rounded-lg pb-4'>
             <div className='flex flex-col'>
-                <figure className='w-full max-h-60 relative group/play'>
-                    <img className='w-full h-full object-cover transition-opacity rounded-lg'
+                <figure className='w-full max-h-60 relative group/play mb-2'>
+                    <img className='w-full h-full object-cover transition-opacity rounded-tl-lg rounded-tr-lg'
                         src={track.img} alt="" />
-                    <span onClick={handlePlayClick}
+                    <span onClick={() => { playTrack(track) }}
                         className='
                     cursor-pointer 
                     bg-timberWolf 
@@ -32,24 +29,21 @@ function ItemTrack({ track }) {
                     bottom-2 
                     right-4 
                     text-2xl md:opacity-0 md:group-hover/play:opacity-100 transition-opacity'>
-                        <FontAwesomeIcon icon={isPlaying && currentTrack && currentTrack.id === track.id ? faPause : faPlay} /></span>
+                        <FontAwesomeIcon icon={isPlaying && currentTrack && currentTrack.id === track.id ? faPause : faPlay} />
+                    </span>
                 </figure>
             </div>
             <div className='px-4 overflow-hidden'>
                 <div className='w-full flex gap-4 justify-between'>
-                    <p className='text-kepple text-base md:text-xl'>${track.price}</p>
-                    <p className='text-onix font-light md:text-xl'>{track.bpm} BPM</p>
+                    <p className='text-teal-700 dark:text-indigo-500 text-base md:text-lg'>${track.price} MXN</p>
+                    <p className='text-onix dark:text-platinum font-light md:text-lg'>{track.bpm} BPM</p>
                 </div>
-                <p className={`text-lg overflow-hidden text-ellipsis whitespace-nowrap md:text-xl mb-1 font-normal capitalize ${isPlaying && currentTrack && currentTrack.id === track.id ? 'text-kepple font-semibold' : 'text-onix'}`}> {track.name} </p>
+                <p className={`transition-all text-lg overflow-hidden text-ellipsis whitespace-nowrap md:text-xl mb-1 font-normal capitalize ${isPlaying && currentTrack && currentTrack.id === track.id ? 'text-kepple dark:text-indigo-500 font-semibold' : 'text-onix dark:text-platinum'}`}> {track.name} </p>
                 <div className='flex justify-between'>
                     <Tag>
-                        <span className='font-light text-base md:text-lg text-white tracking-wider capitalize'>
-                            #Hip-Hop
-                        </span>
+                        #{track.tag}
                     </Tag>
-                    <button className='bg-onix p-2 rounded-lg'>
-                        <span className='text-white'><FontAwesomeIcon icon={faCircleInfo} /></span>
-                    </button>
+                    <Modal track={track} />
                 </div>
             </div>
         </div>
