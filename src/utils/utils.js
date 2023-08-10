@@ -1,5 +1,5 @@
 export function rute(Track) {
-  return `/src/audio/${Track}`;
+  return `/audio/${Track}`;
 }
 
 export function changeKeyName(key) {
