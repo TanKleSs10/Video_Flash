@@ -16,7 +16,7 @@ function Modal({ track }) {
     
     return (
         <>
-            <Boton colorLight={'kepple'} colorDark={'indigo-800'} event={handleModal}>
+            <Boton classes={'outline-kepple bg-kepple hover:border-kepple hover:shadow-kepple dark:outline-indigo-800 dark:bg-indigo-800 dark:hover:border-indigo-800 dark:hover:shadow-indigo-800'} event={handleModal}>
                 <FontAwesomeIcon className='text-white group-hover/button:text-kepple dark:group-hover/button:text-indigo-800 transition-all duration-300'
                     icon={faCircleInfo} />
             </Boton>
@@ -34,7 +34,7 @@ function Modal({ track }) {
                         </div>
                     ))}
                 </div>
-                <Boton colorLight={'red-500'} colorDark={'red-500'} event={handleModal}>
+                <Boton classes={'outline-red-500 bg-red-500 hover:border-red-500 hover:shadow-red-500'} event={handleModal}>
                     <span className='text-black group-hover/button:bg-transparent dark:text-white group-hover/button:text-red-500 dark:group-hover/button:text-red-500 transition-all'>Cerrar</span>
                 </Boton>
             </div>
