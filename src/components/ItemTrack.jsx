@@ -10,12 +10,12 @@ function ItemTrack({ track }) {
     const { playTrack, currentTrack, isPlaying } = useContext(MyContext);
 
     return (
-        <div className='w-full max-h-96 h-max flex flex-col bg-timberWolf dark:bg-gray-900 shadow-content dark:shadow-contentInv rounded-lg pb-4'>
+        <div className='w-full min-h-max  flex flex-col bg-timberWolf dark:bg-gray-900 shadow-content dark:shadow-contentInv rounded-lg pb-4'>
             <div className='flex flex-col'>
                 <figure className='w-full max-h-60 relative group/play mb-2'>
                     <img className='w-full h-full object-cover transition-opacity rounded-tl-lg rounded-tr-lg'
                         src={track.img} alt="" />
-                    <span onClick={() => { playTrack(track) }}
+                    <button onClick={() => { playTrack(track) }}
                         className='
                     cursor-pointer 
                     bg-timberWolf 
@@ -30,7 +30,7 @@ function ItemTrack({ track }) {
                     right-4 
                     text-2xl md:opacity-0 md:group-hover/play:opacity-100 transition-opacity'>
                         <FontAwesomeIcon icon={isPlaying && currentTrack && currentTrack.id === track.id ? faPause : faPlay} />
-                    </span>
+                    </button>
                 </figure>
             </div>
             <div className='px-4 overflow-hidden'>

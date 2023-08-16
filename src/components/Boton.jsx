@@ -1,10 +1,29 @@
-function Boton({ children, classes, event }) {
+import { getChildrenColors, getColors } from '../utils/utils'
+
+function Boton({ children, light, dark, textColorLight, textColorDark, event }) {
+
     return (
-        <button className={`${classes} min-w-min h-10 px-2 py-1 group/button rounded-lg box-border hover:border hover:bg-transparent dark:hover:bg-transparent border-transparent duration-300 transition-all hover:shadow-in`}
+        <button className={`
+        min-w-max max-w-max h-10 
+        px-2 py-1 
+        group/button 
+        rounded-lg 
+        box-border 
+        border-2
+        border-transparent
+        hover:border-2
+        hover:bg-transparent 
+        duration-300 
+        transition-all 
+        hover:shadow-in
+        ${getColors(light, dark, textColorLight, textColorDark)}
+        `}
             onClick={event}
         >
-            {children}
-        </button>
+            <span className={`${getChildrenColors(light, dark)} capitalize group-hover/button:bg-transparent transition-all duration-300`}>
+                {children}
+            </span>
+        </button >
     )
 }
 
