@@ -42,11 +42,11 @@ function Player() {
                     </div>
                 </div>
                 <div className='w-1/2 md:w-2/6 flex justify-center items-center gap-4 flex-grow-1'>
-                    <button onClick={handlerAutoPlay} aria-label='Reproducir sigiente track automaticamente' className={`hidden sm:inline text-xl w-10 h-10 rounded-lg outline-kepple dark:outline-indigo-800 ${autoplay ? 'text-black dark:text-timberWolf' : 'text-slate-500'}`}><FontAwesomeIcon icon={faShuffle} /></button>
+                    <button onClick={handlerAutoPlay} className={`hidden sm:inline text-xl w-10 h-10 rounded-lg outline-kepple dark:outline-indigo-800 ${autoplay ? 'text-black dark:text-timberWolf' : 'text-slate-500'}`}><FontAwesomeIcon icon={faShuffle} /></button>
                     <ButtonPlayer aLabel={'Reproducir track anterior'} event={backTrack}><FontAwesomeIcon icon={faBackwardStep} /></ButtonPlayer>
                     <ButtonPlayer aLabel={'Reproducir/pausar track'} event={() => { playTrack(currentTrack) }}><FontAwesomeIcon icon={isPlaying && currentTrack ? faPause : faPlay} /></ButtonPlayer>
                     <ButtonPlayer aLabel={'Reproducir siguiente track'} event={nextTrack} className='text-2xl md:text-3xl'><FontAwesomeIcon icon={faForwardStep} /></ButtonPlayer>
-                    <button onClick={handlerLoop} aria-label='Reproducir en bucle' className={`hidden sm:inline text-xl w-10 h-10 rounded-lg outline-kepple dark:outline-indigo-800 ${looping ? 'text-black dark:text-timberWolf' : 'text-slate-500'}`}><FontAwesomeIcon icon={faRepeat} /></button>
+                    <button onClick={handlerLoop} className={`hidden sm:inline text-xl w-10 h-10 rounded-lg outline-kepple dark:outline-indigo-800 ${looping ? 'text-black dark:text-timberWolf' : 'text-slate-500'}`}><FontAwesomeIcon icon={faRepeat} /></button>
                 </div>
                 <div className='hidden md:flex justify-end items-center gap-2 md:w-2/6 flex-grow-1'>
                     <ButtonPlayer event={handleMute}><FontAwesomeIcon icon={faVolumeLow} /></ButtonPlayer>
