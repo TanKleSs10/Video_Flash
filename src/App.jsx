@@ -1,15 +1,16 @@
 import Header from "./components/Header";
-import Library from "./components/Library";
-import NewPlayer from "./components/player/NewPlayer";
+import Library from "./components/library/Library";
 import Player from "./components/player/Player";
 
 function App() {
   return (
-    <main className="w-screen h-screen relative bg-platinum dark:bg-gray-800 font-Josefin transition-all">
+    <div className="flex flex-col w-screen h-screen bg-neutral-200 dark:bg-gray-800 font-Josefin">
       <Header />
-      <Library />
-      <NewPlayer />
-    </main>
+      <main className="w-full h-full flex justify-center items-center flex-1 relative overflow-hidden">
+        <Library />
+      </main>
+      <Player />
+    </div>
   );
 }
 export default App;

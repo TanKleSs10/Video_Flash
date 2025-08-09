@@ -7,8 +7,8 @@ export const tracks = [
     bpm: 90,
     price: 300,
     tag: "Rap",
-    duracion: "04:27",
-    licencia: "MP3 Lease",
+    duration: "04:27",
+    lease: "MP3 Lease",
   },
   {
     id: "BRL-002",
@@ -18,8 +18,8 @@ export const tracks = [
     bpm: 88,
     price: 250,
     tag: "Rap",
-    duracion: "03:00",
-    licencia: "MP3 Lease",
+    duration: "03:00",
+    lease: "MP3 Lease",
   },
   {
     id: "BRQ-004",
@@ -29,8 +29,8 @@ export const tracks = [
     bpm: 84,
     price: 190,
     tag: "Rap",
-    duracion: "03:14",
-    licencia: "MP3 Lease",
+    duration: "03:14",
+    lease: "MP3 Lease",
   },
   {
     id: "BRN-001",
@@ -40,8 +40,7 @@ export const tracks = [
     bpm: 92,
     price: 225,
     tag: "Rap",
-    duracion: "03:01",
-    licencia: "MP3 Lease",
+    duration: "03:01",
+    lease: "MP3 Lease",
   },
 ];
-
