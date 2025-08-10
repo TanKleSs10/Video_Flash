@@ -13,7 +13,7 @@ export default function TrackCard({ track }) {
           src={track.img}
           alt=""
         />
-        <PlayButton />
+        <PlayButton id={track.id} />
       </figure>
 
       <div className="px-2 flex flex-wrap justify-between gap-y-2">
@@ -24,7 +24,7 @@ export default function TrackCard({ track }) {
           {track.bpm} BPM
         </p>
 
-        <TitleCard name={track.name} />
+        <TitleCard name={track.name} id={track.id} />
 
         <Tag tagName={track.tag} />
 

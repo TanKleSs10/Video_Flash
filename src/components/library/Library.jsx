@@ -1,14 +1,15 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import TrackCard from "./TrackCard";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { tracks } from "../../data/track";
+import { usePlayerStore } from "../../stores/playerStore";
 
-function Library() {
+export default function Library() {
+  const { tracks, currentTrack } = usePlayerStore((store) => store);
+  const currentTrackId = currentTrack?.id ?? null;
+
   return (
     <Swiper
       effect={"coverflow"}
@@ -26,12 +27,10 @@ function Library() {
       className="w-full"
     >
       {tracks.map((track) => (
-        <SwiperSlide key={track.id} className="bg-center bg-cover w-64">
+        <SwiperSlide key={track.id} className={`bg-center bg-cover w-64 `}>
           <TrackCard track={track} />
         </SwiperSlide>
       ))}
     </Swiper>
   );
 }
-
-export default Library;
