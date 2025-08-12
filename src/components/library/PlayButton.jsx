@@ -1,7 +1,7 @@
-import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import Button from "../shared/Button";
 import PropTypes from "prop-types";
 import { usePlayerStore } from "../../stores/playerStore";
+import { Pause, Play } from "lucide";
 
 export default function PlayButton({ id }) {
   const { setCurrentTrack, currentTrack, setIsPlaying, isPlaying } =
@@ -21,7 +21,7 @@ export default function PlayButton({ id }) {
   return (
     <Button
       onClick={() => handlePlay(id)}
-      icon={id === currentTrackId ? (isPlaying ? faPause : faPlay) : faPlay}
+      icon={id === currentTrackId ? isPlaying ? <Pause /> : <Play /> : <Play />}
       variant="player"
     />
   );

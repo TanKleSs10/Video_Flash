@@ -8,51 +8,41 @@ import PropTypes from "prop-types";
  * Estiliza la barra de progreso para un aspecto más parecido a un reproductor.
  * Se puede personalizar el color, la altura y el estilo del "thumb".
  */
-const CustomLinearProgress = styled(LinearProgress)(
-  ({ theme, barcolor, trackcolor, barheight }) => ({
-    height: barheight || 6,
+const CustomLinearProgress = styled(LinearProgress)(({ theme, barheight }) => ({
+  height: barheight || 6,
+  borderRadius: 5,
+  backgroundColor:
+    theme.palette.mode === "light" ? "rgb(195 193 193)" : "rgb(30 43 72)",
+  cursor: "pointer",
+
+  "& .MuiLinearProgress-bar": {
     borderRadius: 5,
     backgroundColor:
-      trackcolor ||
-      (theme.palette.mode === "light"
-        ? "rgba(0, 0, 0, 0.1)"
-        : "rgba(255, 255, 255, 0.3)"),
-    cursor: "pointer",
+      theme.palette.mode === "light" ? "rgb(68 187 164)" : "rgb(49 44 133)", // Color de la barra de progreso
+    transition: "none", // Deshabilita la transición para un seguimiento instantáneo
+  },
 
-    "& .MuiLinearProgress-bar": {
-      borderRadius: 5,
-      backgroundColor: barcolor || "#1db954", // Color de la barra de progreso
-      transition: "none", // Deshabilita la transición para un seguimiento instantáneo
-    },
+  // Esto crea el "thumb" o "circulo" que aparece al pasar el mouse por encima
+  "& .MuiLinearProgress-bar::after": {
+    content: '""',
+    position: "absolute",
+    right: 0,
+    top: "50%",
+    transform: "translateY(-50%)",
+    width: "0px",
+    height: "0px",
+    borderRadius: "50%",
+    backgroundColor: "white",
+    boxShadow: "0 0 4px rgba(0,0,0,0.3)",
+    transition: "width 0.2s, height 0.2s",
+  },
+  "&:hover .MuiLinearProgress-bar::after": {
+    width: "12px",
+    height: "12px",
+  },
+}));
 
-    // Esto crea el "thumb" o "circulo" que aparece al pasar el mouse por encima
-    "& .MuiLinearProgress-bar::after": {
-      content: '""',
-      position: "absolute",
-      right: 0,
-      top: "50%",
-      transform: "translateY(-50%)",
-      width: "0px",
-      height: "0px",
-      borderRadius: "50%",
-      backgroundColor: "white",
-      boxShadow: "0 0 4px rgba(0,0,0,0.3)",
-      transition: "width 0.2s, height 0.2s",
-    },
-    "&:hover .MuiLinearProgress-bar::after": {
-      width: "12px",
-      height: "12px",
-    },
-  }),
-);
-
-export default function ProgressBar({
-  value,
-  onValueChange,
-  barColor,
-  trackColor,
-  barHeight,
-}) {
+export default function ProgressBar({ value, onValueChange, barHeight }) {
   const [isDragging, setIsDragging] = useState(false);
   const progressBarRef = useRef(null);
 
@@ -116,8 +106,6 @@ export default function ProgressBar({
       <CustomLinearProgress
         variant="determinate"
         value={value}
-        barcolor={barColor}
-        trackcolor={trackColor}
         barheight={barHeight}
       />
     </Box>
@@ -125,9 +113,7 @@ export default function ProgressBar({
 }
 
 ProgressBar.propTypes = {
-  value: PropTypes.number,
-  onValueChange: PropTypes.func,
-  barColor: PropTypes.string,
-  trackColor: PropTypes.string,
-  barHeight: PropTypes.number,
+  value: PropTypes.number.isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  barHeight: PropTypes.number.isRequired,
 };

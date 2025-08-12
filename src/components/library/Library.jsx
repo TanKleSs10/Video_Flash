@@ -7,8 +7,7 @@ import { EffectCoverflow, Pagination } from "swiper/modules";
 import { usePlayerStore } from "../../stores/playerStore";
 
 export default function Library() {
-  const { tracks, currentTrack } = usePlayerStore((store) => store);
-  const currentTrackId = currentTrack?.id ?? null;
+  const { tracks } = usePlayerStore((store) => store);
 
   return (
     <Swiper

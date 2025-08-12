@@ -1,14 +1,6 @@
-import {
-  faBackwardStep,
-  faForwardStep,
-  faPause,
-  faPlay,
-  faRepeat,
-  faShuffle,
-} from "@fortawesome/free-solid-svg-icons";
 import Button from "../shared/Button";
-import Duration from "./Duration";
 import { usePlayerStore } from "../../stores/playerStore";
+import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
 
 export default function Controls() {
   const { isPlaying, setIsPlaying, prevTrack, nextTrack } = usePlayerStore(
@@ -20,23 +12,32 @@ export default function Controls() {
   };
 
   return (
-    <div className="flex flex-wrap w-4/12 justify-center items-center gap-x-4 gap-y-2">
+    <div className="flex gap-5">
       {/* Button for shuffle */}
-      <Button variant="control" disabled icon={faShuffle} />
 
-      <Button variant="control" icon={faBackwardStep} onClick={prevTrack} />
+      <Button
+        variant="control"
+        icon={<SkipBack className="w-7 h-7 fill-current" fill="true" />}
+        onClick={prevTrack}
+      />
 
       <Button
         variant="control"
         onClick={handlePlayPause}
-        icon={isPlaying ? faPause : faPlay}
+        icon={
+          isPlaying ? (
+            <Pause className="w-7 h-7 fill-current" fill="true" />
+          ) : (
+            <Play className="w-7 h-7 fill-current" fill="true" />
+          )
+        }
       />
 
-      <Button variant="control" icon={faForwardStep} onClick={nextTrack} />
-
-      <Button variant="control" disabled icon={faRepeat} />
-
-      <Duration />
+      <Button
+        variant="control"
+        icon={<SkipForward className="w-7 h-7 fill-current" fill="true" />}
+        onClick={nextTrack}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../shared/Button";
 import PropTypes from "prop-types";
-import { faCircleInfo, faClose } from "@fortawesome/free-solid-svg-icons";
+import { EllipsisVertical, X } from "lucide";
 
 export default function Modal({ track }) {
   const [modal, SetModal] = useState(false);
@@ -12,7 +12,7 @@ export default function Modal({ track }) {
 
   return (
     <>
-      <Button icon={faCircleInfo} onClick={handleModal} />
+      <Button icon={<EllipsisVertical />} onClick={handleModal} />
       <div
         className={`absolute w-full flex h-full ${modal ? "opacity-100" : "opacity-0 pointer-events-none "} flex-col px-4 py-2 md:py-3 items-center flex-wrap rounded-lg top-0 left-0 bg-timberWolf dark:bg-gray-900 transition-opacity duration-500`}
       >
@@ -28,7 +28,7 @@ export default function Modal({ track }) {
           <p>Etiqueta: {track.tag}</p>
           <p>Licencia: {track.lease}</p>
         </div>
-        <Button icon={faClose} onClick={handleModal} />
+        <Button icon={<X />} onClick={handleModal} />
       </div>
     </>
   );

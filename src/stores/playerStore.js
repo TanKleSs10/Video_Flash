@@ -7,6 +7,7 @@ export const usePlayerStore = create()(
     tracks: tracks,
     isPlaying: false,
     volume: 0.5,
+    setVolume: (newVol) => set({ volume: newVol }),
     setIsPlaying: (isPlaying) => set({ isPlaying }),
     currentTrack: null,
     setCurrentTrack: (trackid) => {
@@ -20,7 +21,7 @@ export const usePlayerStore = create()(
         (track) => track.id == currentTrack?.id,
       );
       const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
-      set({ currentTrack: tracks[nextTrackIndex] });
+      set({ currentTrack: tracks[nextTrackIndex], isPlaying: true });
     },
     prevTrack: () => {
       const { currentTrack, tracks } = get();
@@ -31,7 +32,7 @@ export const usePlayerStore = create()(
         currentTrackIndex > 0
           ? (currentTrackIndex - 1) % tracks.length
           : tracks.length - 1;
-      set({ currentTrack: tracks[nextTrackIndex] });
+      set({ currentTrack: tracks[nextTrackIndex], isPlaying: true });
     },
   })),
 );

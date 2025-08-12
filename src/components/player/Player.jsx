@@ -3,6 +3,10 @@ import Controls from "./Controls";
 import SongDetails from "./SongDetails";
 import Volume from "./Volume";
 import { usePlayerStore } from "../../stores/playerStore";
+import Duration from "./Duration";
+import Button from "../shared/Button";
+import { Repeat, Shuffle } from "lucide-react";
+import NewTrackCard from "../library/NewTrackCard";
 
 export default function NewPlayer() {
   const audioRef = useRef();
@@ -32,30 +36,41 @@ export default function NewPlayer() {
   };
 
   return (
-    <footer className={`w-full h-full max-h-[140px] bg-transparent`}>
-      <section
-        className={`flex w-full
-        gap-y-2
-        md:w-10/12 bg-timberWolf 
-        dark:bg-gray-900 rounded-lg 
-        p-3 shadow-content 
-        dark:shadow-contentInv flex-wrap
-        transition-all duration-300
-        absolute left-1/2 -translate-x-1/2 ${currentTrack ? "bottom-2" : "-bottom-full"}`}
-      >
-        <audio ref={audioRef} onEnded={nexTrack} />
-        {currentTrack && (
-          <SongDetails
-            details={{
-              title: currentTrack.name,
-              img: currentTrack.img,
-              tag: currentTrack.tag,
-            }}
-          />
-        )}
-        <Controls />
-        <Volume />
-      </section>
-    </footer>
+    <section
+      className={`
+      flex flex-col sm:flex-row flex-wrap
+      w-full rounded-lg
+      p-4 sm:p-3
+      
+    `}
+    >
+      {currentTrack && (
+        <main className="w-full h-full flex justify-center flex-1">
+          <NewTrackCard img={currentTrack.img} title={currentTrack.name} />
+        </main>
+      )}
+
+      <footer className="w-full flex flex-col">
+        <audio className="hidden" ref={audioRef} onEnded={nexTrack} />
+
+        <div className="flex w-full justify-between gap-x-4 gap-y-2 mb-3 sm:mb-0">
+          <Controls />
+          <Duration audio={audioRef} />
+          <div className="flex">
+            <Button
+              variant="control"
+              disabled
+              icon={<Shuffle className="w-7 h-7 fill-current" fill="true" />}
+            />
+            <Button
+              variant="control"
+              disabled
+              icon={<Repeat className="w-7 h-7 fill-current" fill="true" />}
+            />
+            <Volume />
+          </div>
+        </div>
+      </footer>
+    </section>
   );
 }
