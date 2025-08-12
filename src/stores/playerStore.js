@@ -10,21 +10,42 @@ export const usePlayerStore = create()(
     setVolume: (newVol) => set({ volume: newVol }),
     setIsPlaying: (isPlaying) => set({ isPlaying }),
     currentTrack: null,
+    viewNextTrack: null,
+    viewPrevTrack: null,
     setCurrentTrack: (trackid) => {
       const { tracks } = get();
+
       const track = tracks.find((track) => track.id === trackid);
-      set({ currentTrack: track });
+
+      const currentTrackIndex = tracks.findIndex(
+        (track) => track.id == trackid,
+      );
+      const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
+      const prevTrackIndex =
+        currentTrackIndex > 0
+          ? (currentTrackIndex - 1) % tracks.length
+          : tracks.length - 1;
+
+      console.log(nextTrackIndex, prevTrackIndex);
+
+      set({
+        currentTrack: track,
+        viewPrevTrack: tracks[prevTrackIndex],
+        viewNextTrack: tracks[nextTrackIndex],
+        isPlaying: true,
+      });
     },
     nextTrack: () => {
-      const { currentTrack, tracks } = get();
+      const { currentTrack, tracks, setCurrentTrack } = get();
       const currentTrackIndex = tracks.findIndex(
         (track) => track.id == currentTrack?.id,
       );
       const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
-      set({ currentTrack: tracks[nextTrackIndex], isPlaying: true });
+
+      setCurrentTrack(tracks[nextTrackIndex].id);
     },
     prevTrack: () => {
-      const { currentTrack, tracks } = get();
+      const { currentTrack, tracks, setCurrentTrack } = get();
       const currentTrackIndex = tracks.findIndex(
         (track) => track.id == currentTrack?.id,
       );
@@ -32,7 +53,7 @@ export const usePlayerStore = create()(
         currentTrackIndex > 0
           ? (currentTrackIndex - 1) % tracks.length
           : tracks.length - 1;
-      set({ currentTrack: tracks[nextTrackIndex], isPlaying: true });
+      setCurrentTrack(tracks[nextTrackIndex].id);
     },
   })),
 );

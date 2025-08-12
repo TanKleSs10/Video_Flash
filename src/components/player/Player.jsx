@@ -1,12 +1,10 @@
 import { useEffect, useRef } from "react";
 import Controls from "./Controls";
-import SongDetails from "./SongDetails";
 import Volume from "./Volume";
 import { usePlayerStore } from "../../stores/playerStore";
 import Duration from "./Duration";
 import Button from "../shared/Button";
 import { Repeat, Shuffle } from "lucide-react";
-import NewTrackCard from "../library/NewTrackCard";
 
 export default function NewPlayer() {
   const audioRef = useRef();
@@ -36,7 +34,7 @@ export default function NewPlayer() {
   };
 
   return (
-    <section
+    <footer
       className={`
       flex flex-col sm:flex-row flex-wrap
       w-full rounded-lg
@@ -44,33 +42,25 @@ export default function NewPlayer() {
       
     `}
     >
-      {currentTrack && (
-        <main className="w-full h-full flex justify-center flex-1">
-          <NewTrackCard img={currentTrack.img} title={currentTrack.name} />
-        </main>
-      )}
+      <audio className="hidden" ref={audioRef} onEnded={nexTrack} />
 
-      <footer className="w-full flex flex-col">
-        <audio className="hidden" ref={audioRef} onEnded={nexTrack} />
-
-        <div className="flex w-full justify-between gap-x-4 gap-y-2 mb-3 sm:mb-0">
-          <Controls />
-          <Duration audio={audioRef} />
-          <div className="flex">
-            <Button
-              variant="control"
-              disabled
-              icon={<Shuffle className="w-7 h-7 fill-current" fill="true" />}
-            />
-            <Button
-              variant="control"
-              disabled
-              icon={<Repeat className="w-7 h-7 fill-current" fill="true" />}
-            />
-            <Volume />
-          </div>
+      <div className="flex w-full justify-between gap-x-4 gap-y-2 mb-3 sm:mb-0">
+        <Controls />
+        <Duration audio={audioRef} />
+        <div className="flex">
+          <Button
+            variant="control"
+            disabled
+            icon={<Shuffle className="w-7 h-7 fill-current" fill="true" />}
+          />
+          <Button
+            variant="control"
+            disabled
+            icon={<Repeat className="w-7 h-7 fill-current" fill="true" />}
+          />
+          <Volume />
         </div>
-      </footer>
-    </section>
+      </div>
+    </footer>
   );
 }
