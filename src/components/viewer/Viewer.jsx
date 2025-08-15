@@ -19,7 +19,7 @@ export default function Viewer() {
     <AnimatePresence initial={false} mode="popLayout">
       <motion.section
         key={currentTrack.id} // fuerza cambio para AnimatePresence
-        className="flex items-center gap-5 perspective-[1000px]"
+        className="flex w-8/12 items-center gap-5 perspective-[1000px]"
         layout
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >

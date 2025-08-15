@@ -26,8 +26,6 @@ export const usePlayerStore = create()(
           ? (currentTrackIndex - 1) % tracks.length
           : tracks.length - 1;
 
-      console.log(nextTrackIndex, prevTrackIndex);
-
       set({
         currentTrack: track,
         viewPrevTrack: tracks[prevTrackIndex],

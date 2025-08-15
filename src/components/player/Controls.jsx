@@ -12,7 +12,7 @@ export default function Controls() {
   };
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5 order-2 md:order-none justify-center md:justify-stretch">
       {/* Button for shuffle */}
 
       <Button

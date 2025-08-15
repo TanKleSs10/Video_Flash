@@ -44,10 +44,10 @@ export default function NewPlayer() {
     >
       <audio className="hidden" ref={audioRef} onEnded={nexTrack} />
 
-      <div className="flex w-full justify-between gap-x-4 gap-y-2 mb-3 sm:mb-0">
+      <div className="flex flex-col-reverse md:flex-row w-full justify-between gap-x-4 gap-y-2 mb-3 sm:mb-0">
         <Controls />
         <Duration audio={audioRef} />
-        <div className="flex">
+        <div className="md:flex hidden">
           <Button
             variant="control"
             disabled

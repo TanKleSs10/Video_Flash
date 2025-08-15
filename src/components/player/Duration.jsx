@@ -34,7 +34,7 @@ export default function Duration({ audio }) {
   };
 
   return (
-    <div className="flex w-full items-center justify-center gap-4 dark:text-timberWolf text-nigth">
+    <div className="flex order-3 md:order-none w-full items-center justify-center gap-4 dark:text-timberWolf text-nigth">
       <span>{formatTime(currentTime)}</span>
       <NewProgressBar
         value={(currentTime / duration) * 100 || 0}

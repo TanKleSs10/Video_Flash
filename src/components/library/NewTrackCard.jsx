@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export default function NewTrackCard({ id, img, title, variant }) {
   return (
     <motion.article
-      className="flex flex-col w-[400px] max-h-80 gap-6 h-min overflow-hidden will-change-transform"
+      className="flex flex-col w-[300px] md:w-[400px] max-h-80 gap-6 h-min overflow-hidden will-change-transform"
       layoutId={`CardViewer-${id}`}
       layout
       initial={false}
