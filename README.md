@@ -17,7 +17,7 @@ The Video Flash Player is a music player designed for Video Flash Productions. T
 
 ### Demo
 
-[Live Demo](https://www.google.com/search?q=)
+[Live Demo](https://video-flash.netlify.app/)
 
 -----
 
