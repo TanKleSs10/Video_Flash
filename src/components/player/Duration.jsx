@@ -34,8 +34,8 @@ export default function Duration({ audio }) {
   };
 
   return (
-    <div className="flex order-3 md:order-none w-full items-center justify-center gap-4 dark:text-timberWolf text-nigth">
-      <span>{formatTime(currentTime)}</span>
+    <div className="flex max-w-2xl w-full items-center justify-center gap-2 dark:text-timberWolf text-nigth">
+      <span className="block w-10 text-center">{formatTime(currentTime)}</span>
       <NewProgressBar
         value={(currentTime / duration) * 100 || 0}
         onChange={(percentage) => {
@@ -43,7 +43,9 @@ export default function Duration({ audio }) {
         }}
         max={100}
       />
-      <span>{duration ? formatTime(duration) : "0:00"}</span>
+      <span className="w-10 text-center">
+        {duration ? formatTime(duration) : "0:00"}
+      </span>
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default function Header() {
   const { changeMode, theme } = useTheme();
 
   return (
-    <header className="w-full min-h-20 py-2 px-4 bg-timberWolf dark:bg-gray-900 flex justify-between items-center">
+    <header className="w-full min-h-20 py-2 px-4 flex justify-between items-center">
       <div className="flex gap-4 items-center">
         <picture className="block w-16">
           <img

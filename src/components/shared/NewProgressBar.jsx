@@ -5,19 +5,19 @@ import PropTypes from "prop-types";
 export default function NewProgressBar({ value, max, onChange }) {
   return (
     <Slider.Root
-      className="relative flex items-center select-none w-full h-5 group"
+      className="relative flex flex-1 items-center select-none h-5 group"
       value={[value]}
       onValueChange={(val) => onChange(val[0])}
       max={max}
       step={1}
     >
       {/* Track */}
-      <Slider.Track className="bg-gray-300 dark:bg-gray-700 relative grow rounded-full h-2">
+      <Slider.Track className="bg-gray-800 dark:bg-gray-700 relative grow rounded-full h-2">
         {/* Range con animación */}
         <Slider.Range asChild>
           <motion.div
             layout
-            className="absolute bg-kepple dark:bg-indigo-900 rounded-full h-full"
+            className="absolute bg-cyan-800 dark:bg-indigo-900 rounded-full h-full"
             transition={{ type: "spring", stiffness: 1000, damping: 100 }}
           />
         </Slider.Range>

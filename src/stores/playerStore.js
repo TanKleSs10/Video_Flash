@@ -1,57 +1,127 @@
 import { create } from "zustand";
-import { tracks } from "../data/track";
 import { devtools } from "zustand/middleware";
+import { tracks } from "../data/track";
+
+// Function to shuffle an array
+const shuffleArray = (array) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+// Initial setup to get the first track and its neighbors
+const initialTracks = tracks;
+const initialCurrentTrack = initialTracks[0];
+const initialPrevTrack = initialTracks[initialTracks.length - 1]; // Last track
+const initialNextTrack = initialTracks[1];
 
 export const usePlayerStore = create()(
   devtools((set, get) => ({
-    tracks: tracks,
+    // State
+    tracks: initialTracks,
     isPlaying: false,
+    isShuffled: false,
+    shuffledTracks: [],
     volume: 0.5,
-    setVolume: (newVol) => set({ volume: newVol }),
+    currentTrack: initialCurrentTrack, // Set to the first track
+    viewNextTrack: initialNextTrack, // Set to the second track
+    viewPrevTrack: initialPrevTrack, // Set to the last track
+    isOpen: false,
+    isRepeating: false,
+
+    // Actions
+    setIsOpen: (isOpen) => set({ isOpen }),
+    setVolume: (volume) => set({ volume }),
     setIsPlaying: (isPlaying) => set({ isPlaying }),
-    currentTrack: null,
-    viewNextTrack: null,
-    viewPrevTrack: null,
-    setCurrentTrack: (trackid) => {
-      const { tracks } = get();
+    toggleRepeat: () => set((state) => ({ isRepeating: !state.isRepeating })),
 
-      const track = tracks.find((track) => track.id === trackid);
+    toggleShuffle: () => {
+      const { isShuffled, tracks, currentTrack } = get();
+      if (!isShuffled) {
+        const newShuffledTracks = shuffleArray(tracks);
+        set({ isShuffled: true, shuffledTracks: newShuffledTracks });
+        if (currentTrack) {
+          const newIndex = newShuffledTracks.findIndex(
+            (t) => t.id === currentTrack.id,
+          );
+          get().updateViewTracks(newIndex, newShuffledTracks);
+        }
+      } else {
+        set({ isShuffled: false, shuffledTracks: [] });
+        if (currentTrack) {
+          const originalIndex = tracks.findIndex(
+            (t) => t.id === currentTrack.id,
+          );
+          get().updateViewTracks(originalIndex, tracks);
+        }
+      }
+    },
 
-      const currentTrackIndex = tracks.findIndex(
-        (track) => track.id == trackid,
-      );
-      const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
+    updateViewTracks: (currentIndex, trackList) => {
       const prevTrackIndex =
-        currentTrackIndex > 0
-          ? (currentTrackIndex - 1) % tracks.length
-          : tracks.length - 1;
-
+        (currentIndex - 1 + trackList.length) % trackList.length;
+      const nextTrackIndex = (currentIndex + 1) % trackList.length;
       set({
-        currentTrack: track,
-        viewPrevTrack: tracks[prevTrackIndex],
-        viewNextTrack: tracks[nextTrackIndex],
-        isPlaying: true,
+        viewPrevTrack: trackList[prevTrackIndex],
+        viewNextTrack: trackList[nextTrackIndex],
       });
     },
-    nextTrack: () => {
-      const { currentTrack, tracks, setCurrentTrack } = get();
-      const currentTrackIndex = tracks.findIndex(
-        (track) => track.id == currentTrack?.id,
-      );
-      const nextTrackIndex = (currentTrackIndex + 1) % tracks.length;
 
-      setCurrentTrack(tracks[nextTrackIndex].id);
-    },
-    prevTrack: () => {
-      const { currentTrack, tracks, setCurrentTrack } = get();
-      const currentTrackIndex = tracks.findIndex(
-        (track) => track.id == currentTrack?.id,
+    setCurrentTrack: (trackId) => {
+      const { tracks, isShuffled, shuffledTracks, updateViewTracks } = get();
+      const listToUse = isShuffled ? shuffledTracks : tracks;
+      const currentTrackIndex = listToUse.findIndex(
+        (track) => track.id === trackId,
       );
-      const nextTrackIndex =
-        currentTrackIndex > 0
-          ? (currentTrackIndex - 1) % tracks.length
-          : tracks.length - 1;
-      setCurrentTrack(tracks[nextTrackIndex].id);
+
+      set({
+        currentTrack: listToUse[currentTrackIndex],
+        isPlaying: true,
+      });
+
+      updateViewTracks(currentTrackIndex, listToUse);
+    },
+
+    nextTrack: () => {
+      const {
+        currentTrack,
+        tracks,
+        isShuffled,
+        shuffledTracks,
+        setCurrentTrack,
+        isRepeating,
+      } = get();
+      const listToUse = isShuffled ? shuffledTracks : tracks;
+
+      if (isRepeating) {
+        setCurrentTrack(currentTrack.id);
+      } else {
+        const currentTrackIndex = listToUse.findIndex(
+          (track) => track.id === currentTrack?.id,
+        );
+        const nextTrackIndex = (currentTrackIndex + 1) % listToUse.length;
+        setCurrentTrack(listToUse[nextTrackIndex].id);
+      }
+    },
+
+    prevTrack: () => {
+      const {
+        currentTrack,
+        tracks,
+        isShuffled,
+        shuffledTracks,
+        setCurrentTrack,
+      } = get();
+      const listToUse = isShuffled ? shuffledTracks : tracks;
+      const currentTrackIndex = listToUse.findIndex(
+        (track) => track.id === currentTrack?.id,
+      );
+      const prevTrackIndex =
+        (currentTrackIndex - 1 + listToUse.length) % listToUse.length;
+      setCurrentTrack(listToUse[prevTrackIndex].id);
     },
   })),
 );
