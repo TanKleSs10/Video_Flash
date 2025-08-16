@@ -1,14 +1,24 @@
-import HeaderX from './components/HeaderX'
-import Library from './components/Library'
-import Player from './components/Player/Player'
+import { AnimatePresence, motion } from "motion/react";
+import Header from "./components/Header";
+import Player from "./components/player/Player";
+import Viewer from "./components/viewer/Viewer";
+import NewLibrary from "./components/library/NewLibrary";
+import { usePlayerStore } from "./stores/playerStore";
 
 function App() {
+  const isOpen = usePlayerStore((state) => state.isOpen);
+
   return (
-    <main className="w-screen h-screen relative bg-platinum dark:bg-gray-800 font-Josefin transition-all">
-      <HeaderX />
-      <Library />
+    <div className="flex flex-col w-screen h-screen bg-timberWolf dark:bg-black font-Josefin">
+      <Header />
+      <AnimatePresence>
+        <motion.main className="w-full h-full flex items-center md:px-4 gap-4 flex-1 relative overflow-hidden">
+          <Viewer />
+          {isOpen && <NewLibrary />}
+        </motion.main>
+      </AnimatePresence>
       <Player />
-    </main>
+    </div>
   );
 }
 export default App;
